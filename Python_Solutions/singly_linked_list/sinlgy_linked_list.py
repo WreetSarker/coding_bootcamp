@@ -41,6 +41,30 @@ class SinglyLinkedList:
             self.tail = None
         return current.value
 
+    def shift(self):
+        if self.length == 0:
+            return None
+        temp = self.head
+        if self.length == 1:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
+        self.length -= 1
+        return temp.value
+
+    def unshift(self, value):
+        val = Node(value)
+        if self.length == 0:
+            self.head = val
+            self.tail = val
+        else:
+            temp = self.head
+            self.head = val
+            self.head.next = temp
+
+        self.length += 1
+
 
 s = SinglyLinkedList()
 s.push('Hi')

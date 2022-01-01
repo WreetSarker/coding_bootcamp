@@ -45,6 +45,32 @@ class SinglyLinkedList {
         return current.value;
     }
 
+    shift() {
+        if (this.length === 0) return undefined;
+        let temp = this.head;
+        if (this.length === 1) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.head = this.head.next;
+        }
+        this.length--;
+        return temp.value;
+    }
+
+    unshift(value) {
+        const val = new Node(value);
+        if (this.length === 0) {
+            this.head = val;
+            this.tail = val;
+        } else {
+            const temp = this.head;
+            this.head = val;
+            this.head.next = temp;
+        }
+        this.length++;
+    }
+
 }
 
 s = new SinglyLinkedList();
@@ -54,10 +80,11 @@ s.push('There');
 // console.log(s);
 s.push('Wreet');
 // console.log(s);
-console.log(s.pop());
+console.log(s.shift());
 console.log(s);
-s.pop();
+s.unshift('Mr.');
 console.log(s);
-s.pop();
+s.unshift('Hello')
 console.log(s);
-console.log(s.pop());
+
+// console.log(s.pop());

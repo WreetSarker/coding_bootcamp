@@ -65,13 +65,58 @@ class SinglyLinkedList:
 
         self.length += 1
 
+    def get(self, idx):
+        if idx < 0 or idx >= self.length:
+            return None
+        count = 0
+        current = self.head
+        while count != idx:
+            current = current.next
+            count += 1
+        return current
+
+    def setValue(self, idx, value):
+        if self.get(idx):
+            currentNode = self.get(idx)
+            currentNode.value = value
+            return True
+        return False
+
+    def insert(self, idx, val):
+        if idx < 0 or idx > self.length:
+            return False
+        if idx == 0:
+            self.unshift(val)
+        elif idx == self.length:
+            self.push(val)
+        else:
+            newNode = Node(val)
+            prevNode = self.get(idx - 1)
+            temp = prevNode.next
+            prevNode.next = newNode
+            newNode.next = temp
+            self.length += 1
+        return True
+
+    def remove(self, idx):
+        if idx < 0 or idx >= 0:
+            return None
+        if idx == 0:
+            return self.shift()
+        elif idx == self.length - 1:
+            return self.pop()
+        else:
+            prevNode = self.get(idx - 1)
+            current = prevNode.next
+            prevNode.next = current.next
+            self.length -= 1
+            return current.value
+
 
 s = SinglyLinkedList()
 s.push('Hi')
 s.push('There')
 s.push('Wreet')
 print(s)
-print(s.pop())
-print(s.pop())
-print(s.pop())
-print(s.pop())
+print(s.setValue(2, 'HAHA'))
+print(s.get(2).value)

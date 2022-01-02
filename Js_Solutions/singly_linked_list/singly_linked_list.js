@@ -71,20 +71,76 @@ class SinglyLinkedList {
         this.length++;
     }
 
+    get(idx) {
+        if (idx < 0 || idx >= this.length) {
+            return null;
+        }
+        let count = 0;
+        let current = this.head;
+        while (count !== idx) {
+            current = current.next;
+            count++
+        }
+        return current;
+    }
+
+    set(idx, value) {
+        if (this.get(idx)) {
+            const node = this.get(idx);
+            node.value = value;
+            return true;
+        }
+        return false;
+    }
+
+    insert(idx, value) {
+        if (idx < 0 || idx > this.length) {
+            return false;
+        }
+        if (idx === 0) {
+            this.unshift(value);
+        } else if (idx === this.length) {
+            this.push(value);
+        } else {
+            const prevNode = this.get(idx - 1);
+            let temp = prevNode.next;
+            const newNode = new Node(value);
+            prevNode.next = newNode;
+            newNode.next = temp;
+            this.length++;
+        }
+        return true;
+    }
+
+    remove(idx) {
+        if (idx < 0 || idx >= this.length) {
+            return null;
+        }
+        if (idx === 0) {
+            return this.shift();
+        } else if (idx === this.length - 1) {
+            return this.pop();
+        } else {
+            let prevNode = this.get(idx - 1);
+            let currentNode = this.get(idx);
+            prevNode.next = currentNode.next;
+            this.length--;
+            return currentNode.value;
+        }
+    }
 }
 
 s = new SinglyLinkedList();
 s.push('Hi');
-// console.log(s);
 s.push('There');
-// console.log(s);
 s.push('Wreet');
-// console.log(s);
-console.log(s.shift());
-console.log(s);
+s.shift()
 s.unshift('Mr.');
-console.log(s);
 s.unshift('Hello')
+console.log(s.get(3));
+console.log(s.insert(1, 'Haha'));
+console.log(s);
+console.log(s.remove(4));
 console.log(s);
 
 // console.log(s.pop());

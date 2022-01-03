@@ -112,6 +112,30 @@ class SinglyLinkedList:
             self.length -= 1
             return current.value
 
+    def reverse(self):
+        if self.length == 0:
+            return None
+        node = self.head
+        self.head = self.tail
+        self.tail = node
+        nextNode = None
+        prevNode = None
+
+        for i in range(self.length):
+            nextNode = node.next
+            node.next = prevNode
+            prevNode = node
+            node = nextNode
+        return self
+
+    def printList(self):
+        current = self.head
+        arr = []
+        while(current):
+            arr.append(current.value)
+            current = current.next
+        print(arr)
+
 
 s = SinglyLinkedList()
 s.push('Hi')
@@ -120,3 +144,8 @@ s.push('Wreet')
 print(s)
 print(s.setValue(2, 'HAHA'))
 print(s.get(2).value)
+s.push('12')
+s.push('21')
+s.printList()
+s.reverse()
+s.printList()

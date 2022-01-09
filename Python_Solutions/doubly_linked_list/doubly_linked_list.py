@@ -38,6 +38,31 @@ class DoublyLinkedList:
         self.length -= 1
         return temp
 
+    def shift(self):
+        if self.length == 0:
+            return None
+        temp = self.head
+        if self.length == 1:
+            self.head = 0
+            self.tail = 0
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+            temp.prev = None
+        self.length -= 1
+        return temp
+
+    def unshift(self, val):
+        newNode = Node(val)
+        if self.length == 0:
+            self.head = newNode
+            self.tail = newNode
+        else:
+            self.head.prev = newNode
+            newNode.next = self.head
+            self.head = newNode
+        self.length += 1
+
 
 d = DoublyLinkedList()
 d.push(1)
@@ -45,3 +70,9 @@ d.push(2)
 print(d.pop().value)
 print(d.pop().value)
 print(d.pop())
+d.push(1)
+d.push(2)
+d.push('Hello')
+print(d.shift().value)
+d.unshift('Hi there')
+print(d.shift().value)

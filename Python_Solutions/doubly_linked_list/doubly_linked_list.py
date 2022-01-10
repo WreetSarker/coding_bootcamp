@@ -23,6 +23,7 @@ class DoublyLinkedList:
             newNode.prev = self.tail
             self.tail = newNode
         self.length += 1
+        return True
 
     def pop(self):
         if self.length == 0:
@@ -62,6 +63,68 @@ class DoublyLinkedList:
             newNode.next = self.head
             self.head = newNode
         self.length += 1
+        return True
+
+    def get(self, idx):
+        if idx < 0 or idx >= self.length:
+            return None
+        if idx <= self.length // 2:
+            current = self.head
+            count = 0
+            while count != idx:
+                current = current.next
+                count += 1
+            return current
+        else:
+            current = self.tail
+            count = self.length - 1
+            while count != idx:
+                current = current.prev
+                count -= 1
+            return current
+
+    def set_val(self, idx, val):
+        found = self.get(idx)
+        if found is not None:
+            found.value = val
+            return True
+        return False
+
+    def insert(self, idx, val):
+        if idx < 0 or idx > self.length:
+            return False
+        if idx == 0:
+            return self.unshift(val)
+        elif idx == self.length:
+            return self.push(val)
+        else:
+            newNode = Node(val)
+            beforeNode = self.get(idx-1)
+            afterNode = beforeNode.next
+            beforeNode.next = newNode
+            newNode.prev = beforeNode
+            newNode.next = afterNode
+            afterNode.prev = newNode
+            self.length += 1
+            return True
+
+    def remove(self, idx):
+        if idx < 0 or idx >= self.length:
+            return None
+        if idx == 0:
+            return self.shift()
+        elif idx == self.length - 1:
+            return self.pop()
+        else:
+            removedNode = self.get(idx)
+            prevNode = removedNode.prev
+            nextNode = removedNode.next
+            prevNode.next = nextNode
+            nextNode.prev = prevNode
+            removedNode.prev = None
+            removedNode.next = None
+            self.length -= 1
+            return removedNode
 
 
 d = DoublyLinkedList()

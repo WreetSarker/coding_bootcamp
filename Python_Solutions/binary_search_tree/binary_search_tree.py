@@ -48,12 +48,27 @@ class BinarySearchTree:
                 found = True
         return found
 
+    def breadth_first_search(self):
+        data = []
+        queue = []
+        node = self.root
+        queue.append(node)
+
+        while len(queue) != 0:
+            node = queue.pop(0)
+            data.append(node.value)
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+        return data
+
 
 tree = BinarySearchTree()
 tree.insert(10)
-tree.insert(4)
-tree.insert(14)
+tree.insert(6)
+tree.insert(15)
 tree.insert(3)
-tree.insert(1)
-tree.insert(13)
-print(tree.found(2))
+tree.insert(8)
+tree.insert(20)
+print(tree.breadth_first_search())

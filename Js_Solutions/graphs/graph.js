@@ -41,6 +41,24 @@ class Graph {
         delete this.adjacencyList[vertex]
     }
 
+    depthFirstSearchRec(start) {
+        let results = [];
+        let visited = {};
+        const adjacencyList = this.adjacencyList;
+        function dfs(vertex) {
+            if (!vertex) return null;
+            results.push(vertex);
+            visited[vertex] = true;
+            for (let neighbor of adjacencyList[vertex]) {
+                if (!visited[neighbor]) {
+                    dfs(neighbor)
+                }
+            }
+        }
+        dfs(start);
+        return results;
+    }
+
 }
 g = new Graph();
 g.addVertex('A')
@@ -50,10 +68,14 @@ g.addEdge('A', 'B')
 g.addVertex('C');
 g.addVertex('D');
 g.addVertex('E');
+g.addVertex('F');
 g.addEdge('A', 'C');
 g.addEdge('B', 'D');
 g.addEdge('D', 'E');
 g.addEdge('C', 'E');
+g.addEdge('F', 'D');
+g.addEdge('F', 'E');
 // console.log(g);
-g.removeVertex('A')
+// g.removeVertex('A')
 console.log(g);
+console.log(g.depthFirstSearchRec('A'));

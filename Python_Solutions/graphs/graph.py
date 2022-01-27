@@ -30,6 +30,21 @@ class Graph:
             self.removeEdge(ver, vertex)
         del self.adjacencyList[vertex]
 
+    def depth_first_search_rec(self, start):
+        result = []
+        visited = dict()
+
+        def dfs(vertex):
+            if vertex is None:
+                return None
+            result.append(vertex)
+            visited[vertex] = True
+            for neighbor in self.adjacencyList[vertex]:
+                if visited.get(neighbor) is not True:
+                    dfs(neighbor)
+        dfs(start)
+        return result
+
 
 g = Graph()
 g.addVertex('A')
@@ -37,11 +52,13 @@ g.addVertex('B')
 g.addVertex('C')
 g.addVertex('D')
 g.addVertex('E')
+g.addVertex('F')
 g.addEdge('A', 'B')
 g.addEdge('A', 'C')
 g.addEdge('D', 'B')
 g.addEdge('D', 'E')
 g.addEdge('C', 'E')
-print(g.adjacencyList)
-g.removeVertex('A')
-print(g.adjacencyList)
+g.addEdge('F', 'D')
+g.addEdge('F', 'E')
+# g.removeVertex('A')
+print(g.depth_first_search_rec('A'))

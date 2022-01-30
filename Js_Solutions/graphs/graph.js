@@ -59,6 +59,26 @@ class Graph {
         return results;
     }
 
+    depthFirstSearchIte(start) {
+        let stack = [];
+        let discovered = {};
+        let vertex;
+        let result = [];
+
+        stack.push(start);
+        while (stack.length > 0) {
+            vertex = stack.pop();
+            if (!discovered[vertex]) {
+                discovered[vertex] = true;
+                result.push(vertex);
+                for (let neighbor of this.adjacencyList[vertex]) {
+                    stack.push(neighbor);
+                }
+            }
+        }
+        return result;
+    }
+
 }
 g = new Graph();
 g.addVertex('A')
@@ -79,3 +99,4 @@ g.addEdge('F', 'E');
 // g.removeVertex('A')
 console.log(g);
 console.log(g.depthFirstSearchRec('A'));
+console.log(g.depthFirstSearchIte('A'));

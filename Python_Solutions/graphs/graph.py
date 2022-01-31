@@ -45,6 +45,22 @@ class Graph:
         dfs(start)
         return result
 
+    def depth_first_search_ite(self, start):
+        result = []
+        visited = {}
+        stack = []
+        vertex = None
+        stack.append(start)
+
+        while len(stack) > 0:
+            vertex = stack.pop()
+            if visited.get(vertex) is not True:
+                result.append(vertex)
+                visited[vertex] = True
+                for neighbor in self.adjacencyList[vertex]:
+                    stack.append(neighbor)
+        return result
+
 
 g = Graph()
 g.addVertex('A')
@@ -62,3 +78,4 @@ g.addEdge('F', 'D')
 g.addEdge('F', 'E')
 # g.removeVertex('A')
 print(g.depth_first_search_rec('A'))
+print(g.depth_first_search_ite('A'))

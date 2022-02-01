@@ -61,6 +61,24 @@ class Graph:
                     stack.append(neighbor)
         return result
 
+    def breadth_first_search(self, start):
+        result = []
+        queue = []
+        queue.append(start)
+        visited = {}
+        visited[start] = True
+
+        while len(queue) > 0:
+            vertex = queue.pop(0)
+            result.append(vertex)
+
+            for neighbor in self.adjacencyList[vertex]:
+                if visited.get(neighbor) is not True:
+                    visited[neighbor] = True
+                    queue.append(neighbor)
+
+        return result
+
 
 g = Graph()
 g.addVertex('A')
@@ -77,5 +95,6 @@ g.addEdge('C', 'E')
 g.addEdge('F', 'D')
 g.addEdge('F', 'E')
 # g.removeVertex('A')
-print(g.depth_first_search_rec('A'))
-print(g.depth_first_search_ite('A'))
+print(g.depth_first_search_rec('A'))  # [ 'A', 'B', 'D', 'E', 'C', 'F' ]
+print(g.depth_first_search_ite('A'))  # [ 'A', 'C', 'E', 'F', 'D', 'B' ]
+print(g.breadth_first_search('A'))  # [ 'A', 'B', 'C', 'D', 'E', 'F' ]

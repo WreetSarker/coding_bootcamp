@@ -79,6 +79,28 @@ class Graph {
         return result;
     }
 
+    breadthFirstSearch(start) {
+        const queue = [];
+        const result = [];
+        queue.push(start);
+        const visited = {};
+        visited[start] = true;
+        let vertex;
+
+        while (queue.length > 0) {
+            vertex = queue.shift();
+            result.push(vertex);
+
+            for (let neighbor of this.adjacencyList[vertex]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.push(neighbor);
+                }
+            }
+        }
+        return result;
+    }
+
 }
 g = new Graph();
 g.addVertex('A')
@@ -98,5 +120,6 @@ g.addEdge('F', 'E');
 // console.log(g);
 // g.removeVertex('A')
 console.log(g);
-console.log(g.depthFirstSearchRec('A'));
-console.log(g.depthFirstSearchIte('A'));
+console.log(g.depthFirstSearchRec('A')); // [ 'A', 'B', 'D', 'E', 'C', 'F' ]
+console.log(g.depthFirstSearchIte('A')); // [ 'A', 'C', 'E', 'F', 'D', 'B' ]
+console.log(g.breadthFirstSearch('A')); //  [ 'A', 'B', 'C', 'D', 'E', 'F' ]

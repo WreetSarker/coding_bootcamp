@@ -1,21 +1,81 @@
 // Implement Dijkstra's shortest path algorithm
 
+class Node {
+    constructor(val, priority) {
+        this.value = val;
+        this.priority = priority;
+    }
+}
+
 class PriorityQueue {
     constructor() {
         this.values = [];
     }
 
     enqueue(val, priority) {
-        this.values.push({ val, priority });
-        this.sort();
+        const newNode = new Node(val, priority);
+        this.values.push(newNode);
+        this.bubbleUp();
+        return true;
+    }
+
+    bubbleUp() {
+        let idx = this.values.length - 1;
+        const element = this.values[idx];
+        while (idx > 0) {
+            let parentIdx = Math.floor((idx - 1) / 2);
+            let parent = this.values[parentIdx];
+            if (parent.priority < element.priority) {
+                break;
+            }
+            this.values[idx] = this.values[parentIdx];
+            this.values[parentIdx] = element;
+            idx = parentIdx;
+        }
     }
 
     dequeue() {
-        return this.values.shift();
+        const min_val = this.values[0];
+        const last = this.values.pop();
+        if (this.values.length > 0) {
+            this.values[0] = last;
+            this.sinkDown();
+        }
+        return min_val;
     }
 
-    sort() {
-        this.values.sort((a, b) => a.priority - b.priority);
+    sinkDown() {
+        let idx = 0;
+        const element = this.values[idx];
+        const length = this.values.length;
+
+        while (true) {
+            let leftChildIdx = (2 * idx) + 1;
+            let rightChildIdx = (2 * idx) + 2;
+            let leftChild, rightChild;
+            let swap = null;
+
+            if (leftChildIdx < length) {
+                leftChild = this.values[leftChildIdx];
+                if (leftChild.priority < element.priority) {
+                    swap = leftChildIdx;
+                }
+            }
+
+            if (rightChildIdx < length) {
+                rightChild = this.values[rightChildIdx];
+                if ((swap === null && rightChild.priority < element.priority) || (swap !== null && rightChild.priority < leftChild.priority)) {
+                    swap = rightChildIdx;
+                }
+            }
+
+            if (swap === null) {
+                break;
+            }
+            this.values[idx] = this.values[swap];
+            this.values[swap] = element;
+            idx = swap;
+        }
     }
 }
 
@@ -56,7 +116,7 @@ class WeightedGraph {
 
         // Loop until there is something to visit
         while (nodes.values.length > 0) {
-            smallest = nodes.dequeue().val;
+            smallest = nodes.dequeue().value;
             if (smallest === finish) {
                 while (previous[smallest]) {
                     path.push(smallest);
@@ -100,4 +160,4 @@ g.addEdge('C', 'F', 4);
 g.addEdge('D', 'E', 3);
 g.addEdge('D', 'F', 1);
 g.addEdge('E', 'F', 1);
-console.log(g.Dijkstra("D", "F"));
+console.log(g.Dijkstra("A", "E"));

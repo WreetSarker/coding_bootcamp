@@ -1,18 +1,68 @@
 # Implement Dijkstra's shortest path algorithm
 
+class Node:
+    def __init__(self, val, priority):
+        self.value = val
+        self.priority = priority
+
+
 class PriorityQueue:
     def __init__(self):
         self.values = []
 
     def enqueue(self, val, priority):
-        self.values.append({'value': val, 'priority': priority})
-        self.sort()
+        newNode = Node(val, priority)
+        self.values.append(newNode)
+        self.bubbleUp()
+        return self.values
+
+    def bubbleUp(self):
+        idx = len(self.values) - 1
+        element = self.values[idx]
+        while idx > 0:
+            parentIdx = (idx-1)//2
+            parent = self.values[parentIdx]
+            if parent.priority < element.priority:
+                break
+            self.values[idx] = self.values[parentIdx]
+            self.values[parentIdx] = element
+            idx = parentIdx
 
     def dequeue(self):
-        return self.values.pop(0)
+        min_val = self.values[0]
+        last = self.values.pop()
+        if len(self.values) > 0:
+            self.values[0] = last
+            self.sinkDown()
+        return min_val
 
-    def sort(self):
-        self.values = sorted(self.values, key=lambda node: node['priority'])
+    def sinkDown(self):
+        idx = 0
+        element = self.values[idx]
+        length = len(self.values)
+
+        while True:
+            leftChildIdx = (2*idx) + 1
+            rightChildIdx = (2*idx) + 2
+            leftChild = None
+            rightChild = None
+            swap = None
+
+            if leftChildIdx < length:
+                leftChild = self.values[leftChildIdx]
+                if leftChild.priority < element.priority:
+                    swap = leftChildIdx
+
+            if rightChildIdx < length:
+                rightChild = self.values[rightChildIdx]
+                if (swap is None and rightChild.priority < element.priority) or (swap is not None and rightChild.priority < leftChild.priority):
+                    swap = rightChildIdx
+
+            if swap is None:
+                break
+            self.values[idx] = self.values[swap]
+            self.values[swap] = element
+            idx = swap
 
 
 class WeightedGraph:
@@ -46,7 +96,7 @@ class WeightedGraph:
 
         # Loop until there is something to visit
         while len(nodes.values) > 0:
-            smallest = nodes.dequeue()['value']
+            smallest = nodes.dequeue().value
             if smallest == finish:
                 while previous[smallest] is not None:
                     path.append(smallest)
@@ -83,4 +133,4 @@ g.addEdge('C', 'F', 4)
 g.addEdge('D', 'E', 3)
 g.addEdge('D', 'F', 1)
 g.addEdge('E', 'F', 1)
-print(g.Dijkstra("B", "F"))
+print(g.Dijkstra("A", "E"))

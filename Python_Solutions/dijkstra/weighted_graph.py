@@ -77,6 +77,25 @@ class WeightedGraph:
         self.adjacencyList[vertex1].append({'node': vertex2, 'weight': weight})
         self.adjacencyList[vertex2].append({'node': vertex1, 'weight': weight})
 
+    def removeEdge(self, vertex1, vertex2):
+        data1 = []
+        data2 = []
+
+        for vertex in self.adjacencyList[vertex1]:
+            if vertex != vertex2:
+                data1.append(vertex)
+        self.adjacencyList[vertex1] = data1
+
+        for vertex in self.adjacencyList[vertex2]:
+            if vertex != vertex1:
+                data1.append(vertex)
+        self.adjacencyList[vertex2] = data2
+
+    def removeVertex(self, vertex):
+        for edge in self.adjacencyList[vertex]:
+            self.removeEdge(edge, vertex)
+        del self.adjacencyList[vertex]
+
     def Dijkstra(self, start, finish):
         distances = {}
         previous = {}

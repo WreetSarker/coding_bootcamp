@@ -95,6 +95,30 @@ class WeightedGraph {
         this.adjacencyList[vertex2].push({ node: vertex1, weight });
     }
 
+    removeEdge(vertex1, vertex2) {
+        let data1 = [];
+        let data2 = [];
+        for (let neighbor of this.adjacencyList[vertex1]) {
+            if (neighbor !== vertex2) {
+                data1.push(neighbor);
+            }
+        }
+        this.adjacencyList[vertex1] = data1;
+        for (let neighbor of this.adjacencyList[vertex2]) {
+            if (neighbor !== vertex1) {
+                data2.push(neighbor);
+            }
+        }
+        this.adjacencyList[vertex2] = data2;
+    }
+
+    removeVertex(vertex) {
+        for (let neighbor of this.adjacencyList[vertex]) {
+            this.removeEdge(neighbor, vertex);
+        }
+        delete this.adjacencyList[vertex];
+    }
+
     Dijkstra(start, finish) {
         const nodes = new PriorityQueue();
         const distances = {};
